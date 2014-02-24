@@ -1,0 +1,112 @@
+#outer-container{
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+
+#pro_types td:hover {
+    cursor: pointer;
+}
+
+#login a{
+	color: #fff;
+}
+
+#login{
+	padding-top: 5px;
+	padding-bottom: 1px;
+	background-color:rgba(255,255,255,0.25);
+	border-bottom: solid #999 thin;
+}
+
+body{
+	
+	background-image: url('../images/dark-wood.jpg');
+	background-repeat: repeat;
+	background-position: 130px;
+	background-attachment: fixed;
+}
+
+.container{
+	background-color:rgba(255,255,255,0.25);
+}
+
+.page-header{
+	margin-top:20px;
+	height:90px;
+	background:none;
+	border-bottom:none;
+}
+
+h2{color: #ffffff;}
+
+p{color: #ffffff;}
+
+#sm{color: #222222;}
+
+.footer{
+background-color: #222222;
+margin-bottom: 30px;
+padding: 20px;
+}
+
+.copyright{
+	background-color: #29547F;
+	padding-top: 30px;
+	height:70px;
+	margin-bottom: 20px;
+}
+
+#boot3{
+	background-color: #111111;
+	padding: 15px;
+	padding-top: 30px;
+	padding-bottom: 50px;
+	color: #ffffff;
+	margin-bottom: 25px;
+}
+
+#bootrec{
+	background-color: #111111;
+	padding: 15px;
+	padding-top: 30px;
+	padding-bottom: 50px;
+	padding-left:130px;
+	color: #ffffff;
+	margin-bottom: 25px;
+}
+
+#bootrec .col-sm-3{
+	margin-left:20px;
+	margin-right:20px;
+	
+		
+}
+
+.product_desc{
+	margin-bottom: 20px;
+	min-height:auto;
+}
+
+h3{
+	color:#FFF;
+}
+
+#boot3 h3{
+	color: #29547F;
+}
+
+#bootrec h3{
+	color: #29547F;
+}
+
+#product_text{
+	height:163px;
+}
+
+#social{
+	padding-top:30px;
+}
+
+
