@@ -10,7 +10,7 @@
           </div>
           <ul class='nav nav-stacked'>
           	<li class=''>
-              <a href='../index.php'>
+              <a href='index.php'>
                 <i class='icon-home'></i>
                 <span>Visit the site</span>
               </a>
@@ -22,11 +22,26 @@
               </a>
             </li>
             <li class='active'>
-              <a href='cms_products.php'>
-                <i class='icon-barcode'></i>
+              <a class="dropdown-collapse" href="#"><i class='icon-barcode'></i>
                 <span>Products</span>
+                <i class='icon-angle-down angle-down'></i>
               </a>
+              <ul class='nav nav-stacked'>
+                <li class=''>
+                  <a href='cms_cats.php'>
+                    <i class='icon-caret-right'></i>
+                    <span>Product Categories</span>
+                  </a>
+                </li>
+                <li class=''>
+                  <a href='cms_products.php'>
+                    <i class='icon-caret-right'></i>
+                    <span>Product Types</span>
+                  </a>
+                </li>
+              </ul>
             </li>
+
             <li class=''>
               <a href='cms_orders.php'>
                 <i class='icon-inbox'></i>

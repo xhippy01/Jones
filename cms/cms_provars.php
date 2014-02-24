@@ -48,12 +48,12 @@
         }
                 
         echo '</form></td>';
-        echo "<td>
+        echo "<td class='btnsave'>
           <div class='text-right'>";
 
             if($quantity > 0)
             {
-              echo '<a href="#" class="btn btn-primary">Save</a>';
+              echo '<a class="btn btn-primary">Save</a>';
             }
             else
             {
