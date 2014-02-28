@@ -1,3 +1,16 @@
+<?php
+//customer class file
+	require_once("customer.php");  
+	//include('functions.php');
+	
+	$customer = new Customer;
+	
+	//this has been passed through on the url
+	$cust_id = $_SESSION["cust_id"];	
+	$customer->getCustomerDetails($cust_id);
+	
+?>
+
 <header>
       <nav class='navbar navbar-default'>
         <a class='navbar-brand' href='cms_index.php'>
@@ -171,23 +184,34 @@
           </li>
           <li class='dropdown dark user-menu'>
             <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-              <img width="23" height="23" alt="<?php echo $_SESSION['cust_firstname'] . ' '. $_SESSION['cust_lastname'] ?>" src="../assets/images/avatar.jpg" />
+              <img width="23" height="23" alt="<?php echo $_SESSION['cust_firstname'] . ' '. $_SESSION['cust_lastname'] ?>" src="<?php
+					  if($customer->cust_image != '')
+					  {
+						echo 'userimages/'. $customer->cust_image;
+					  }
+					  else
+					  {
+						echo 'http://placehold.it/230x230&text=Photo ';
+						}
+						
+						?>" />
               <span class='user-name'><?php echo $_SESSION['cust_firstname'] . ' '. $_SESSION['cust_lastname'] ?></span>
               <b class='caret'></b>
             </a>
             <ul class='dropdown-menu'>
               <li>
-                <a href='user_profile.html'>
+                <a href='cms_user_profile.php?custid=<?php echo $cust_id; ?>'>
                   <i class='icon-user'></i>
-                  Profile
+                  Your Profile
                 </a>
               </li>
-              <li>
-                <a href='user_profile.html'>
-                  <i class='icon-cog'></i>
-                  Settings
-                </a>
-              </li>
+			  <li><a href="cms_cust_orders.php?custid=<?php echo $cust_id; ?>"><i class='icon-inbox'></i> Your Orders</a></li>
+			  <?php
+			  if($customer->cust_type == 1)
+			  {
+				echo '<a href="cms_orders.php"><li><i class="icon-inbox"></i> Orders (Simon Only)</a></li>';
+				}
+				?>
               <li class='divider'></li>
               <li>
                 <a href='../logout.php'>

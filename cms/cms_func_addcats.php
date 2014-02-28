@@ -1,7 +1,7 @@
 <?php
 //addcats - used to update the categories table
 
-  include('../../connect.php');
+  include('../../../connect.php');
 
   $catname = strip_tags($_REQUEST["catname"]);
   $catdesc = strip_tags($_REQUEST["catdesc"]);

@@ -40,11 +40,11 @@
                 
         if($quantity > 0)
         {
-          echo '<input class="form-control" id="inputText1" placeholder="Add Quantity" type="text"></form></td>';
+          echo '<input class="txtquantity" id="txtquantity" placeholder="Add Quantity" type="text"></form></td>';
         }
         else
         {
-          echo '<input class="form-control" disabled="" id="inputText1" placeholder="Add Quantity" type="text"></form></td>';
+          echo '<input class="txtquantity" disabled="" id="txtquantity" placeholder="Add Quantity" type="text"></form></td>';
         }
                 
         echo '</form></td>';
@@ -53,7 +53,7 @@
 
             if($quantity > 0)
             {
-              echo '<a href="#" class="btn btn-primary">Buy now</a>';
+              echo '<a class="addbutton btn btn-primary">Buy now</a>';
             }
             else
             {

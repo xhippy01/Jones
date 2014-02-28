@@ -26,14 +26,24 @@
                 $pro_id = $catrow['pt_id'];
                 $pt_name = $catrow['pt_name'];
                 $pt_desc = $catrow['pt_desc'];
+				$pt_image = $catrow['pt_image'];
 
                 if($count < 4)
                 {                  
                   if($pt_id != $pro_id)
                   {
-                    echo '<div class="col-sm-3">
-                      <img width="250px" height="100px" src="stock_images/leg.jpg" alt="product name">
-                      <h3>'.$pt_name.'</h3>
+                    echo '<div class="col-sm-3">';
+						
+						if($pt_image == '')
+						{
+							echo '<img id="product_image" src="http://placehold.it/250x100/143249/fff&text=Product Image" alt="oh no where\'s my image!" title="oh no where\'s my image!"/>';
+						}
+						else
+						{
+							echo '<img width="250px" height="100px" src="stock/'.$pt_image.'" alt="Jones Finest '.$name.'"title="Jones Finest '.$name.'">';
+						}
+                      
+                      echo '<h3>'.$pt_name.'</h3>
                       <p>'.$pt_desc.'</p>
                       <p><a href="single_product.php?id='.$pro_id.'" class="btn btn-primary">Buy now</a>&nbsp;</p>
                     </div>';

@@ -117,9 +117,9 @@ include('../../connect.php');
       <li class='active' data-slide-to='2' data-target='#myCarousel'></li>
     </ol>
     <div class='carousel-inner'>
-      <div class='active item'><img src="http://placehold.it/1200x400/550055/fff&text=You can have anything here" /></div>
-      <div class='item'><img src="http://placehold.it/1200x=400/143249/fff&text=From recipes to products" /></div>
-      <div class='item'><img src="http://placehold.it/1200x400/f34541/fff&text=Its your choice!" /></div>
+      <div class='active item'><img  height="400" width="1200" src="assets/images/pages/jonesboardcar.jpg" /></div>
+      <div class='item'><img  height="400" width="1200" src="assets/images/pages/dingleyhogscar.jpg" /></div>
+      <div class='item'><img  height="400" width="1200" src="assets/images/pages/cheesecar.jpg" /></div>
     </div>
     <a class='left carousel-control' data-slide='prev' href='#myCarousel'>
       <span class='icon-circle-arrow-left icon-prev'></span>
@@ -143,6 +143,16 @@ include('../../connect.php');
               $id = $row['pt_id'];
               $name = $row['pt_name'];
               $desc = $row['pt_desc'];
+			  $image = $row['pt_image'];
+			  
+			  if($image == '')
+				{
+					echo '<img id="product_image" src="http://placehold.it/350x150/143249/fff&text=Product Image" alt="oh no where\'s my image!" title="oh no where\'s my image!"/>';
+				}
+				else
+				{
+					echo '<img width="350px" height="150px" src="stock/'.$image.'" alt="Jones Finest '.$name.'"title="Jones Finest '.$name.'">';
+				}
 
               echo '<h3>'.$name.'</h3>';
               echo '<p>'.$desc.'</p>';
@@ -153,13 +163,17 @@ include('../../connect.php');
         </div>
         <div class="col-lg-4">
           <h2>Featured Recipe</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+		  <a href="hog.php"><img height="150px" width="350px" src="assets/images/recipes/steaksarnie.jpg" /></a>
+		  <h3>The Ultimate Steak Sarnie</h3>
+          <p>This month, I want to share with you one of my personal favourites, and one that everyone can make their own.</p>
           <p><a class="btn btn-primary" href="#" role="button">View recipe &raquo;</a></p>
        </div>
         <div class="col-lg-4">
-          <h2>Hog Roast</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-          <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+          <a href="hog.php"><h2>Hog Roast</h2></a>
+		  <a href="hog.php"><img height="150px" width="350px" src="assets/images/pages/Team_Shot_Hog.jpg" /></a>
+		  <h3>The Hog Roast Specialists</h3>
+          <p>Welcome to J Jones of Whittlesey – The Hog Roast Specialists, a local company with a growing reputation for cooking delicious hog roasts, tailored to suit your individual needs.</p>
+          <p><a class="btn btn-primary" href="hog.php" role="button">View details &raquo;</a></p>
         </div>
       </div>
 
@@ -187,19 +201,16 @@ include('../../connect.php');
       <div class="footer">
           <div class="row">
           <div class="col-lg-4">
-            <h2>Widget1</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-info" href="#" role="button">View product &raquo;</a></p>
+            <h2>Dingley Dell Pork</h2>
+            <a href="http://www.dingleydell.com/"><img height="150px" width="350px" src="assets/images/pages/dingleyhogs.jpg" /></a>
           </div>
           <div class="col-lg-4">
-            <h2>Widget2</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-info" href="#" role="button">View recipe &raquo;</a></p>
+            <h2>In store Ready Meals</h2>
+            <a href="#"><img height="150px" width="350px" src="assets/images/pages/readymeals.jpg" /></a>
          </div>
           <div class="col-lg-4">
-            <h2>Widget3</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-            <p><a class="btn btn-info" href="#" role="button">View details &raquo;</a></p>
+            <h2>Find us on Facebook</h2>
+            <a href="https://www.facebook.com/pages/Jones-Butchers/104454009641565?fref=ts"><img height="150px" width="350px" src="assets/images/pages/jonesboardwid.jpg" /></a>
           </div>
         </div>
       </div>

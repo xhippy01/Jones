@@ -76,7 +76,24 @@
       <div class="product_desc">
         <div class="row">
           <div class="col-sm-5">
-            <img id="product_image" src="http://placehold.it/480x480/143249/fff&text=Product Image" alt="" />
+		  <?php
+		  $result = mysqli_query($con,"SELECT * FROM product_type WHERE pt_id = $pt_id");
+
+            while($row = mysqli_fetch_array($result))
+            {
+				$image = $row['pt_image'];
+				$name = $row['pt_name'];
+				
+				if($image == '')
+				{
+					echo '<img id="product_image" src="http://placehold.it/480x480/143249/fff&text=Product Image" alt="oh no where\'s my image!" title="oh no where\'s my image!"/>';
+				}
+				else
+				{
+					echo '<img id="product_image" height="480px" width="480px" src="stock/'.$image.'" alt="Jones Finest '.$name.'" title="Jones Finest '.$name.'"/>';
+				}
+			?>
+            
           </div>
             <div class="col-sm-7" id="product_right">
               <div class="alert alert-info">
@@ -87,15 +104,14 @@
 
                   //do not remove, used to store pt_id to cheekely send to provars through jquery;)
                   echo '<form><input type="hidden" id="ptid" value="'.$pt_id .' "></input></form>';
+				  echo '<form><input type="hidden" id="custid" value="'.$cust_id .' "></input></form>';
                   ///////////////////////////////////////////////////////////////////////////
 
-                  $result = mysqli_query($con,"SELECT * FROM product_type WHERE pt_id = $pt_id");
-
-                  while($row = mysqli_fetch_array($result))
-                  {
+                  
                     
                     $name = $row['pt_name'];
                     $desc = $row['pt_desc'];
+					
 
                     echo '<h3>'.$name.'</h3>';
                     echo '<p>'.$desc.'</p>';
@@ -172,10 +188,10 @@
 
                                 echo '<td><form class="form form-horizontal" style="margin-bottom: 0;" method="post" action="#" accept-charset="UTF-8">
                                 <input name="authenticity_token" type="hidden" />';
-
+								
                                   if($quantity > 0)
                                   {
-                                    echo '<input class="form-control" id="inputText1" placeholder="Add Quantity" type="text"></form></td>';
+                                    echo '<input class="form-control" id="quantity_'.$pv_id.'" placeholder="Add Quantity" type="text"></form></td>';
                                   }
                                   else
                                   {
@@ -190,11 +206,11 @@
 
                                     if($quantity > 0)
                                     {
-                                      echo '<a href="#" class="btn btn-primary">Buy now</a>';
+                                      echo '<div class="addbutton"><a id="'.$pv_id.'" class="btn btn-primary">Add to Basket</a></div>';
                                     }
                                     else
                                     {
-                                      echo '<a class="btn btn-default disabled">Buy now</a>';
+                                      echo '<a class="btn btn-default disabled">Add to Basket</a>';
                                     }
                                     
                             echo '</div>
@@ -245,7 +261,25 @@
           var i = document.getElementById("ptid").value;
           $('#pro_vars').load('provars.php',{'id':i});
         },30000);
-
+		
+		$('.addbutton').live("click",function() {
+        var varid = $(this).find("a").attr("id");
+		
+        if(varid) {
+            var custid = document.getElementById("custid").value;
+			var quantity = document.getElementById("quantity_"+varid).value;
+			if(quantity == 0)
+			{
+				alert("Please make sure you state a quantity");
+			}
+			else{
+				$('#inbasket').load('add_to_basket.php',{'varid':varid,'custid':custid, 'quantity':quantity});
+			}
+			
+			alert(varid + ", " + custid + ", " + quantity);
+            
+            }
+        });
       });
     </script>
   </body>

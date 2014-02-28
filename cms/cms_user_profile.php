@@ -1,32 +1,17 @@
 <?php
 	session_start();
   
-  include('../../../connect.php');
-
-  $cust_id = $_REQUEST["custid"];
-
-  $result = mysqli_query($con,"SELECT * FROM customer_profiles WHERE cust_id = ".$cust_id);
-
-  while($row = mysqli_fetch_array($result))
-  {
-    $cust_id = $row['cust_id'];
+	include('../../../connect.php');
+  
+	//customer class file
+	require_once("customer.php");  
+	$customer = new Customer;
 	
-    $cust_firstname = $row['cust_firstname'];
-    $cust_lastname = $row['cust_lastname'];
+	//this has been passed through on the url
+	$cust_id = $_REQUEST["custid"];
 	
-	$_SESSION['cust_firstname'] = $cust_firstname;
-	$_SESSION['cust_lastname'] = $cust_lastname;
-	
-    $cust_username= $row['cust_username'];
-    $cust_email=$row['cust_email'];
-    $cust_bio= $row['cust_bio'];
-    $cust_image= $row['cust_image'];
-    $cust_mailing= $row['cust_mailing_list'];
-  }
-
+	$customer->getCustomerDetails($cust_id);
 ?>
-
-
 
 <!DOCTYPE html>
 <html>
@@ -88,14 +73,14 @@
                     <div class='pull-right'>
                       <ul class='breadcrumb'>
                         <li>
-                          <a href='index.html'>
+                          <a href='cms_user_profile.php?custid=<?php echo $cust_id; ?>'>
                             <i class='icon-bar-chart'></i>
                           </a>
                         </li>
                         <li class='separator'>
                           <i class='icon-angle-right'></i>
                         </li>
-                        <li>Example pages</li>
+                        <li>User pages</li>
                         <li class='separator'>
                           <i class='icon-angle-right'></i>
                         </li>
@@ -109,10 +94,24 @@
                 <div class='col-sm-3 col-lg-2'>
                   <div class='box'>
                     <div class='box-content'>
-                      <img class="img-responsive" src="http://placehold.it/230x230&text=Photo" />
-                    </div>
+						<div class="profileimage">
+						<img class="img-responsive" id="profileimage" src="<?php
+						  if($customer->cust_image != '')
+						  {
+							echo 'userimages/'. $customer->cust_image;
+						  }
+						  else
+						  {
+							echo 'http://placehold.it/230x230&text=Photo ';
+							}
+							
+							?>
+							"/>
+						</div>
+						</div>
                   </div>
                 </div>
+				<div class="custdetails">
                 <div class='col-sm-9 col-lg-10'>
                   <div class='box'>
                     <div class='box-content box-double-padding'>
@@ -121,18 +120,43 @@
                           <div class='col-sm-4'>
                             <div class='lead'>
                               <i class='icon-github text-contrast'></i>
-                              Lorem ipsum
+                              Username, Email & Password changes
                             </div>
-                            <small class='text-muted'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisl est, vulputate at porttitor non, interdum a mauris. Phasellus imperdiet gravida pulvinar.</small>
+							<small class='text-muted'>
+								<strong>Account Type:</strong> 
+								<?php if($customer->cust_type == 1)
+										{
+										echo 'Administrator';
+										}
+										else
+										{
+										echo 'Member';	
+										}
+								?>
+								
+							</small>
+							<br/>
+                            <small class='text-muted'>
+								<strong>Member since:</strong> 
+								<?php 
+								
+								$datetime = strtotime($customer->cust_date_start);
+								echo $mysqldate = date("d/m/Y", $datetime) ;
+								
+								?>
+								
+							</small>
+							
                           </div>
                           <div class='col-sm-7 col-sm-offset-1'>
                             <div class='form-group'>
+								<input class='form-control' id='custid' name='custid' value='<?php echo $customer->cust_id; ?>' type='hidden'>
                               <label>Username</label>
-                              <input class='form-control' id='username' placeholder='Username' value='<?php echo $cust_username; ?>' type='text'>
+                              <input class='form-control' id='username' placeholder='Username' value='<?php echo $customer->cust_username; ?>' type='text'>
                             </div>
                             <div class='form-group'>
                               <label>E-mail</label>
-                              <input class='form-control' id='email' placeholder='E-mail' value='<?php echo $cust_email; ?>' type='text'>
+                              <input class='form-control' id='email' placeholder='E-mail' value='<?php echo $customer->cust_email; ?>' type='text'>
                             </div>
                             <hr class='hr-normal'>
                             <div class='form-group'>
@@ -162,57 +186,101 @@
                           <div class='col-sm-4'>
                             <div class='lead'>
                               <i class='icon-user text-contrast'></i>
-                              Personal info
+                              Contact Details & Delivery Address
                             </div>
-                            <small class='text-muted'>Here you can tell us a little about yourself, you don't have to, we're just being nosey!</small>
+                            <small class='text-muted'>Here you can tell us a little about yourself, you don't have to fill it all in, we're just being nosey!<br><br>
+							Please be mindful that we need this information to complete your orders which are full of yummy goodness!</small>
                           </div>
                           <div class='col-sm-7 col-sm-offset-1'>
                             <div class='form-group'>
+							
+							<input id='custid' name='custid' value='<?php echo $customer->cust_id; ?>' type='hidden'>
+							
                               <label>First name</label>
-                              <input class='form-control' id='firstname' placeholder='First name' value='<?php echo $cust_firstname; ?>' type='text'>
+                              <input class='form-control' id='firstname' name='firstname' placeholder='First name' value='<?php echo $customer->cust_firstname; ?>' type='text'>
                             </div>
                             <div class='form-group'>
                               <label>Last name</label>
-                              <input class='form-control' id='lastname' placeholder='Last name' value='<?php echo $cust_lastname; ?>' type='text'>
+                              <input class='form-control' id='lastname' placeholder='Last name' value='<?php echo $customer->cust_lastname; ?>' type='text'>
                             </div>
                             <div class='form-group'>
-                              <label>Address</label>
-                              <input class='form-control' id='lastname' placeholder='Last name' value='<?php echo $cust_lastname; ?>' type='text'>
+                              <label>House Number</label>
+                              <input class='form-control' id='houseno' placeholder='House Number' value='<?php echo $customer->cust_houseno; ?>' type='text'>
+                            </div>
+							<div class='form-group'>
+                              <label>Address Line 1</label>
+                              <input class='form-control' id='add1' placeholder='Address Line 1' value='<?php echo $customer->cust_add1; ?>' type='text'>
+                            </div>
+							<div class='form-group'>
+                              <label>Address Line 2</label>
+                              <input class='form-control' id='add2' placeholder='Address Line 2' value='<?php echo $customer->cust_add2; ?>' type='text'>
+                            </div>
+							<div class='form-group'>
+                              <label>City</label>
+                              <input class='form-control' id='city' placeholder='City' value='<?php echo $customer->cust_city; ?>' type='text'>
+                            </div>
+							<div class='form-group'>
+                              <label>County</label>
+                              <input class='form-control' id='county' placeholder='County' value='<?php echo $customer->cust_county; ?>' type='text'>
+                            </div>
+							<div class='form-group'>
+                              <label>Post Code</label>
+                              <input class='form-control' id='postcode' placeholder='Post Code' value='<?php echo $customer->cust_postcode; ?>' type='text'>
                             </div>
 
                             <div class='form-group'>
                               <label>Contact Number</label>
-                              <input class='form-control' id='lastname' placeholder='Last name' value='<?php echo $cust_lastname; ?>' type='text'>
+                              <input class='form-control' id='contactnumber' placeholder='Contact Number' value='<?php echo $customer->cust_contactno; ?>' type='text'>
+                            </div>
+							<div class='form-group'>
+                              <label>Mobile Number</label>
+                              <input class='form-control' id='mobilenumber' placeholder='Mobile Number' value='<?php echo $customer->cust_mobileno; ?>' type='text'>
+                            </div>
+							<div class='form-group'>
+							<?php
+							$datetime = strtotime($customer->cust_dob);
+							$mydobdate = date("d/m/Y", $datetime) ;
+							?>
+                              <label>Date of Birth</label>
+                              <input class='form-control' id='dob' placeholder='DOB' value='<?php echo $mydobdate ?>' type='text'>
                             </div>
                             <div class='form-group'>
                               <label>Bio</label>
-                              <textarea class='autosize form-control' id='bio' value='<?php echo $cust_bio; ?>' placeholder='Bio'></textarea>
+                              <textarea class='autosize form-control' id='bio' value='<?php echo $customer->cust_bio; ?>' placeholder='Bio'><?php echo $customer->cust_bio; ?></textarea>
                             </div>
                             <hr class='hr-normal'>
                             <div class='form-group'>
                               <div class='controls'>
                                 <div class='checkbox'>
                                   <label>
-                                    <input data-target='#change-password' data-toggle='collapse' id='changepasswordcheck' type='checkbox' value='option1'>
+									<?php
+									$v = '';
+									if($customer->cust_mailing == 1)
+									{
+										$v = 'checked';
+									}
+									
+									?>
+                                    <input data-target='#mailing' data-toggle='collapse' id='mailing' type='checkbox' <?php echo $v; ?>>
                                     Be on our Mailing List?
                                   </label>
                                 </div>
                               </div>
-                            </div>
+                            </div>                            
                             
-                            
-                          </div>
+                        </div>
                         </fieldset>
                         <div class='form-actions form-actions-padding' style='margin-bottom: 0;'>
                           <div class='text-right'>
                             <div class='btn btn-primary btn-lg'>
                               <i class='icon-save'></i>
-                              Save
+                              <a class="btnsave" >Save</a>
                             </div>
                           </div>
                         </div>
                       </form>
                     </div>
+					</div><!--end of custdetails -->
                   </div>
                 </div>
               </div>
@@ -255,4 +323,63 @@
     
     <!-- / END - page related files and scripts [optional] -->
   </body>
+  
+	<script>
+      $(document).ready(function(){
+        $.ajaxSetup({cache:false});
+		
+        $('.btnsave').live("click",function() {
+			var custid = document.getElementById("custid").value;
+            var firstname = document.getElementById("firstname").value;
+            var lastname = document.getElementById("lastname").value;
+			var houseno = document.getElementById("houseno").value;
+			var add1 = document.getElementById("add1").value;
+			var add2 = document.getElementById("add2").value;
+			var city = document.getElementById("city").value;
+			var county = document.getElementById("county").value;
+			var postcode = document.getElementById("postcode").value;
+			var contact = document.getElementById("contactnumber").value;
+			var mobile = document.getElementById("mobilenumber").value;
+			var email = document.getElementById("email").value;
+			var bio = document.getElementById("bio").value;
+			var mailing = document.getElementById("mailing").checked;
+			var image = document.getElementById("profileimage").src;
+			var dob = document.getElementById("dob").value;
+			
+			var m2 = 0;
+			if(mailing == true)
+			{
+				m2 = 1;
+			}
+			else
+			{
+				m2 = 0;
+			}
+			
+            $('.custdetails').load('cms_func_editcust.php',{
+			'custid':custid,
+			'firstname':firstname,
+			'lastname':lastname,
+			'houseno':houseno,
+			'add1':add1,
+			'add2':add2,
+			'city':city,
+			'county':county,
+			'postcode':postcode,
+			'contact':contact,
+			'mobile':mobile,
+			'email':email,
+			'bio':bio,
+			'mailing':m2,
+			'dob':dob
+			});
+            alert(custid + "," + firstname + "," + lastname + ", " + m2);
+        });
+		
+		$('.profileimage').live("click",function() {
+		var image = document.getElementById("profileimage").src;
+		alert(image);
+		});
+	});
+	</script>
 </html>

@@ -2,7 +2,7 @@
 	session_start();
   
   include('../../../connect.php');
-
+  
   //$cust_id = $_REQUEST["custid"];
 
 ?>
@@ -67,7 +67,7 @@
                         <span>Orders</span>
                       </h1>
                     </div>
-                    <div class='row' id='list'>
+                    <div class='row'>
                       <div class='col-sm-12'>
                         <div class='box'>
                           <div class='box-content' id='orders'>
@@ -104,9 +104,20 @@
                                   $cust_firstname $cust_lastname
                                 </a>
                               </p>
-                              <p>
-                                <span class='label label-warning'>In process</span>
-                              </p>
+                              <p>";
+								if($order_status == 0)
+								{
+									echo "<span class='label label-warning'>In process</span>";
+								}
+								else if($order_status == 1)
+								{
+									echo "<span class='label label-success'>Complete</span>";
+								}
+								else if($order_status == 2)
+								{
+									echo "<span class='label label-danger'>On Hold</span>";
+								}
+                              echo "</p>
                             </div>
                             <div class='text-right pull-right'>
                               <h4 class='contrast price'>$12.00</h4>
@@ -218,7 +229,7 @@
         $('#orders p').click(function() {
         var href = $(this).find("a").attr("id");
         if(href) {
-            $('#detail').load('order_products.php',{'id':href});
+            $('#detail').load('cust_order_products.php',{'id':href});
             }
         });
 

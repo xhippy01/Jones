@@ -1,6 +1,10 @@
 <?php
+	session_start();
+	
+  $total = 0;
   
-  include('../../connect.php');
+  include('../../../connect.php');
+  include('functions.php');
 
   $cust_id = $_REQUEST["custid"];
 
@@ -13,30 +17,31 @@
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta content='text/html;charset=utf-8' http-equiv='content-type'>
     <meta content='Flat administration template for Twitter Bootstrap. Twitter Bootstrap 3 template with Ruby on Rails support.' name='description'>
-    <link href='assets/images/meta_icons/favicon.ico' rel='shortcut icon' type='image/x-icon'>
-    <link href='assets/images/meta_icons/apple-touch-icon.png' rel='apple-touch-icon-precomposed'>
-    <link href='assets/images/meta_icons/apple-touch-icon-57x57.png' rel='apple-touch-icon-precomposed' sizes='57x57'>
-    <link href='assets/images/meta_icons/apple-touch-icon-72x72.png' rel='apple-touch-icon-precomposed' sizes='72x72'>
-    <link href='assets/images/meta_icons/apple-touch-icon-114x114.png' rel='apple-touch-icon-precomposed' sizes='114x114'>
-    <link href='assets/images/meta_icons/apple-touch-icon-144x144.png' rel='apple-touch-icon-precomposed' sizes='144x144'>
+    <link href='../assets/images/meta_icons/favicon.ico' rel='shortcut icon' type='image/x-icon'>
+    <link href='../assets/images/meta_icons/apple-touch-icon.png' rel='apple-touch-icon-precomposed'>
+    <link href='../assets/images/meta_icons/apple-touch-icon-57x57.png' rel='apple-touch-icon-precomposed' sizes='57x57'>
+    <link href='../assets/images/meta_icons/apple-touch-icon-72x72.png' rel='apple-touch-icon-precomposed' sizes='72x72'>
+    <link href='../assets/images/meta_icons/apple-touch-icon-114x114.png' rel='apple-touch-icon-precomposed' sizes='114x114'>
+    <link href='../assets/images/meta_icons/apple-touch-icon-144x144.png' rel='apple-touch-icon-precomposed' sizes='144x144'>
     <!-- / START - page related stylesheets [optional] -->
     
     <!-- / END - page related stylesheets [optional] -->
     <!-- / bootstrap [required] -->
-    <link href="assets/stylesheets/bootstrap/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="../assets/stylesheets/bootstrap/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
     <!-- / theme file [required] -->
-    <link href="assets/stylesheets/light-theme.css" media="all" id="color-settings-body-color" rel="stylesheet" type="text/css" />
+    <link href="../assets/stylesheets/light-theme.css" media="all" id="color-settings-body-color" rel="stylesheet" type="text/css" />
     <!-- / coloring file [optional] (if you are going to use custom contrast color) -->
-    <link href="assets/stylesheets/theme-colors.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="../assets/stylesheets/theme-colors.css" media="all" rel="stylesheet" type="text/css" />
     <!-- / demo file [not required!] -->
-    <link href="assets/stylesheets/demo.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="assets/stylesheets/jones.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="../assets/stylesheets/demo.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="../assets/stylesheets/jones.css" media="all" rel="stylesheet" type="text/css" />
     <!--[if lt IE 9]>
-      <script src="assets/javascripts/ie/html5shiv.js" type="text/javascript"></script>
-      <script src="assets/javascripts/ie/respond.min.js" type="text/javascript"></script>
+      <script src="../assets/javascripts/ie/html5shiv.js" type="text/javascript"></script>
+      <script src="../assets/javascripts/ie/respond.min.js" type="text/javascript"></script>
     <![endif]-->
   </head>
   <body class='contrast-sea-blue '>
+  <?php echo isadmin($cust_id); ?>
     <div id="outer-container">
     <?php
 
@@ -63,9 +68,12 @@
                     <div class='page-header'>
                       <h1 class='pull-left'>
                         <i class='icon-inbox'></i>
-                        <span>Orders</span>
+                        <span>Your Orders</span>
                       </h1>
                     </div>
+					<div class="alert alert-info">
+							<span class="glyphicon icon-info"></span><strong>&nbsp;&nbsp;Heads up!</strong> Your order can only be cancelled before processing begins
+						</div>
                     <div class='row'>
                       <div class='col-sm-12'>
                         <div class='box'>
@@ -107,9 +115,20 @@
                                   $cust_firstname $cust_lastname
                                 </a>
                               </p>
-                              <p>
-                                <span class='label label-warning'>In process</span>
-                              </p>
+                              <p>";
+								if($order_status == 0)
+								{
+									echo "<span class='label label-warning'>In process</span>";
+								}
+								else if($order_status == 1)
+								{
+									echo "<span class='label label-success'>Complete</span>";
+								}
+								else if($order_status == 2)
+								{
+									echo "<span class='label label-danger'>On Hold</span>";
+								}
+                              echo "</p>
                             </div>
                             <div class='text-right pull-right'>
                               <h4 class='contrast price'>$12.00</h4>
@@ -135,12 +154,10 @@
                   </div>
                   <div class='col-sm-8'>
                     <div class='page-header'>
-                      <h1 class='pull-left'>
-                        <span>#001</span>
-                      </h1>
+						
                     </div>
                     <div class='row' id='detail'>
-                      <p>go here please!</p>
+                      
                     </div>
                   </div>
                 </div>
@@ -161,27 +178,27 @@
     </div>
   </div>
     <!-- / jquery [required] -->
-    <script src="assets/javascripts/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/jquery/jquery.min.js" type="text/javascript"></script>
     <!-- / jquery mobile (for touch events) -->
-    <script src="assets/javascripts/jquery/jquery.mobile.custom.min.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/jquery/jquery.mobile.custom.min.js" type="text/javascript"></script>
     <!-- / jquery migrate (for compatibility with new jquery) [required] -->
-    <script src="assets/javascripts/jquery/jquery-migrate.min.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/jquery/jquery-migrate.min.js" type="text/javascript"></script>
     <!-- / jquery ui -->
-    <script src="assets/javascripts/jquery/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/jquery/jquery-ui.min.js" type="text/javascript"></script>
     <!-- / jQuery UI Touch Punch -->
-    <script src="assets/javascripts/plugins/jquery_ui_touch_punch/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/plugins/jquery_ui_touch_punch/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
     <!-- / bootstrap [required] -->
-    <script src="assets/javascripts/bootstrap/bootstrap.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/bootstrap/bootstrap.js" type="text/javascript"></script>
     <!-- / modernizr -->
-    <script src="assets/javascripts/plugins/modernizr/modernizr.min.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/plugins/modernizr/modernizr.min.js" type="text/javascript"></script>
     <!-- / retina -->
-    <script src="assets/javascripts/plugins/retina/retina.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/plugins/retina/retina.js" type="text/javascript"></script>
     <!-- / theme file [required] -->
-    <script src="assets/javascripts/theme.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/theme.js" type="text/javascript"></script>
     <!-- / demo file [not required!] -->
-    <script src="assets/javascripts/demo.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/demo.js" type="text/javascript"></script>
     <!-- / START - page related files and scripts [optional] -->
-    <script src="assets/javascripts/plugins/timeago/jquery.timeago.js" type="text/javascript"></script>
+    <script src="../assets/javascripts/plugins/timeago/jquery.timeago.js" type="text/javascript"></script>
     <!-- / END - page related files and scripts [optional] -->
 
     <script>

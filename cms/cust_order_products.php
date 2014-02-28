@@ -1,6 +1,8 @@
 <?php
 
-include('../../connect.php');
+$total = 0;
+
+include('../../../connect.php');
 
 $orderid = $_REQUEST["id"];
 
@@ -17,6 +19,8 @@ echo "<div class='col-sm-12'>
 	<div class='box'>
 	  <div class='box-content'>
 	    <div class='pull-left'>
+		
+			
 	      <a class='btn btn-success fullfill-items' href='#'>Fullfill selected items</a>
 	      <a class='btn btn-success' href='#'>Mark as complete</a>
 	    </div>
@@ -32,6 +36,7 @@ echo "<div class='col-sm-12'>
 	            <input class='check-all' type='checkbox'>
 	          </th>
 	          <th>Item</th>
+			  <th>Status</th>
 	          <th>
 	            <div class='text-center'>Item Price</div>
 	          </th>
@@ -66,6 +71,7 @@ echo "<div class='col-sm-12'>
 			$price = $row['pv_price'];
 			$quantity = $row['o_p_v_quantity'];
 			$weight = $row['pv_weight'];
+			$status = $row['o_p_v_status'];
 
 			$item_sub_price = $price * $quantity;
 	 		        
@@ -73,8 +79,18 @@ echo "<div class='col-sm-12'>
 	          <td class='only-checkbox'>
 	            <input type='checkbox'>
 	          </td>
-	          <td>".$row['pt_name']. " / " . $weight. "kg</td>
-	          <td>
+	          <td>".$row['pt_name']. " / " . $weight. "kg</td>";
+				$label = '';
+				if($status == 0)
+				{
+				  $label = "<td><span class='label label-important'>Not Picked</span></td>";
+				}
+				else if($status == 1)
+				{
+				  $label = "<td><span class='label label-warning'> Picked  </span></td>";
+				}
+				echo $label;
+				echo "<td>
 	            <div class='text-center'>£".$price."</div>
 	          </td>
 	          <td>
@@ -82,7 +98,7 @@ echo "<div class='col-sm-12'>
 	          </td>
 	          
 	          <td>
-	            <div class='text-right'>£".$item_sub_price."</div>
+	            <div class='text-right'>£".number_format($item_sub_price,2)."</div>
 	          </td>
 	        </tr>";
 
@@ -135,11 +151,8 @@ echo "<div class='col-sm-12'>
 	    </div>
 	    <div class='form-actions form-actions-padding'>
 	      <ul class='pager'>
-	        <li class='previous'>
-	          <a href='#'>← Previous order</a>
-	        </li>
 	        <li class='next'>
-	          <a href='#'>Next order →</a>
+	          <a href='../invoice.html'>View &amp; Print Invoice →</a>
 	        </li>
 	      </ul>
 	    </div>
